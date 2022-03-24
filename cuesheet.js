@@ -50,29 +50,22 @@ const parseFile = (attributes, file) => {
   for (const j in file.tracks) {
     const track = file.tracks[j];
 
+    const indexes = parseIndex(track.indexes);
     const trackAttributes = {
       ...attributes
       , file: file.name
       , track_number: track.number
       , track_title: track.title
-
-      // INDEX は 番号をキーにする。
-      , indexes:
-        Object.assign({}
-          , ...track.indexes.map((index) => ({ [index.number]: index.time }))
-        )
+      , indexes
       , ...formatRems(track.rems)
+      , start: indexes['1'] ? indexes['1'] : '00:00:00.000'
+      , end: null
     }
     if (track.performer) {
       trackAttributes.track_artist = track.performer;
     }
     if (track.songWriter) {
       trackAttributes.songwriter = track.songWriter;
-    }
-    if (trackAttributes.indexes['1']) {
-      const index = trackAttributes.indexes['1'];
-      const min = Number(index.min);
-      trackAttributes.start = `${Math.floor(min / 60)}:${min % 60}:${index.sec}.${index.frame}`;
     }
 
     ret.push(trackAttributes);
@@ -84,7 +77,6 @@ const parseFile = (attributes, file) => {
     const next = ret[i + 1];
     current.end = next.start;
   }
-  ret[ret.length - 1].end = null;
 
   return ret;
 }
@@ -100,3 +92,15 @@ const formatRems = ((rems) => {
     )
     : null;
 });
+
+
+// INDEX は 番号をキーにする。
+const parseIndex = (indexes) => {
+  return Object.assign({}, ...indexes.map((index) => ({
+    [index.number]:
+      ((time) => {
+        const min = Number(time.min);
+        return `${Math.floor(min / 60)}:${min % 60}:${time.sec}.${time.frame}`;
+      })(index.time)
+  })));
+}
