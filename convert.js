@@ -1,10 +1,17 @@
 'use strict';
 
-require('dotenv').config();
 const parser = require('cue-parser-plus');
 const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
+
+// 引数チェック
+if ((process.argv.length < 3) || (4 < process.argv.length)) {
+  const basename = path.basename(process.argv[1]);
+
+  console.error(`Usage: node ${basename} cuesheet [output]`);
+  process.exit(1);
+}
 
 const cuesheetPath = process.argv[2];
 const INPUT = path.dirname(cuesheetPath);

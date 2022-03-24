@@ -11,9 +11,9 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}/index.js",
+            "program": "${file}",
             "args": [
-                "Karajan, BPO - ベートーヴェン 交響曲 第3番, 第8番/ベートーヴェン 交響曲 第3番 変ホ長調 作品55／ 交響曲 第8番 ヘ長調 作品93.cue"
+                "Official髭男dism - one-man tour 2019 at 日本武道館/Official髭男dism - one-man tour 2019 at 日本武道館 disc1.cue"
             ]
         }
     ]

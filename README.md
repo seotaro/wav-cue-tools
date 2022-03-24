@@ -11,13 +11,13 @@ yarn install
 cuesheet を指定して変換
 
 ```bash
-node convert.js {cuesheet} {出力フォルダ}
+node convert.js cuesheet [output]
 ```
 
 指定したフォルダーの cuesheet から変換
 
 ```bash
-find {入力フォルダ} -iname \*.cue -type f | xargs -I "{}" node convert.js "{}" {出力フォルダ}                                 
+find {入力フォルダ} -iname \*.cue -type f | xargs -I "{}" node convert.js "{}" [output]                                 
 ```
 
 ## タグの対応
