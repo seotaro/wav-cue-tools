@@ -71,8 +71,16 @@ const parseFile = (attributes, file) => {
       , start: indexes['1'] ? indexes['1'] : '00:00:00.000'
       , end: null
     }
+
+    // トラックにあれば上書きする。
     if (track.performer) {
       trackAttributes.track_artist = track.performer;
+    }
+    if (track.composer) {
+      trackAttributes.composer = track.composer;
+    }
+    if (track.conductor) {
+      trackAttributes.conductor = track.conductor;
     }
     if (track.songWriter) {
       trackAttributes.songwriter = track.songWriter;
