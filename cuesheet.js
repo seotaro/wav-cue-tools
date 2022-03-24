@@ -50,7 +50,15 @@ const parseFile = (attributes, file) => {
   for (const j in file.tracks) {
     const track = file.tracks[j];
 
-    const indexes = parseIndex(track.indexes);
+    // INDEX は 番号をキーにする。
+    const indexes = Object.assign({}, ...track.indexes.map((index) => ({
+      [index.number]:
+        ((time) => {
+          const min = Number(time.min);
+          return `${Math.floor(min / 60)}:${min % 60}:${time.sec}.${time.frame}`;
+        })(index.time)
+    })));
+
     const trackAttributes = {
       ...attributes
       , file: file.name
@@ -92,15 +100,3 @@ const formatRems = ((rems) => {
     )
     : null;
 });
-
-
-// INDEX は 番号をキーにする。
-const parseIndex = (indexes) => {
-  return Object.assign({}, ...indexes.map((index) => ({
-    [index.number]:
-      ((time) => {
-        const min = Number(time.min);
-        return `${Math.floor(min / 60)}:${min % 60}:${time.sec}.${time.frame}`;
-      })(index.time)
-  })));
-}
