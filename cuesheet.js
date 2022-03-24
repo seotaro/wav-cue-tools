@@ -54,8 +54,10 @@ const parseFile = (attributes, file) => {
     const indexes = Object.assign({}, ...track.indexes.map((index) => ({
       [index.number]:
         ((time) => {
-          const min = Number(time.min);
-          return `${Math.floor(min / 60)}:${min % 60}:${time.sec}.${time.frame}`;
+          const t = Number(time.min);
+          const hour = Math.floor(t / 60);
+          const min = t % 60;
+          return `${padding(hour, 2)}:${padding(min, 2)}:${padding(time.sec, 2)}.${padding(time.frame, 2)}`;
         })(index.time)
     })));
 
@@ -100,3 +102,8 @@ const formatRems = ((rems) => {
     )
     : null;
 });
+
+// ゼロパディング
+const padding = (value, digit) => {
+  return (Array(digit).join('0') + value).slice(-digit);
+}
