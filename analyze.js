@@ -13,4 +13,12 @@ if (process.argv.length !== 3) {
 
 const tracks = cuesheet.parse(process.argv[2]);
 
-console.log(tracks);
+const keyValue = (objs) => {
+  return Object.keys(objs).map(key => {
+    return (objs[key] && (typeof objs[key] === 'object'))
+      ? `${key}=[${keyValue(objs[key])}]`
+      : (objs[key] == null) ? `${key}=${objs[key]}` : `${key}="${objs[key]}"`
+  }).join(',')
+}
+
+console.log(tracks.map(track => keyValue(track)).join('\n'));
