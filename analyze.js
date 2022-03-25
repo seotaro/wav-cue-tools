@@ -13,6 +13,7 @@ if (process.argv.length !== 3) {
 
 const tracks = cuesheet.parse(process.argv[2]);
 
+// 再帰的にオブジェクトを key=value 形式で連結して返す。
 const keyValue = (objs) => {
   return Object.keys(objs).map(key => {
     return (objs[key] && (typeof objs[key] === 'object'))
