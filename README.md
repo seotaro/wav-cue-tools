@@ -20,6 +20,14 @@ node convert.js cuesheet [output]
 find {入力フォルダ} -iname \*.cue -type f | xargs -I "{}" node convert.js "{}" [output]                                 
 ```
 
+以下のような階層構造で出力する。
+
+{output}
+├ {genre}
+  ├ {album_artist}
+    ├ {album}
+      ├ {disc}-{track}.flac
+
 ## タグの対応
 
 | cuesheet                | intermediate  | ffmpeg metadata |     |
