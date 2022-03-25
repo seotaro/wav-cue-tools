@@ -30,28 +30,24 @@ find {入力フォルダ} -iname \*.cue -type f | xargs -I "{}" node convert.js 
 
 ## タグの対応
 
-| cuesheet                | intermediate  | ffmpeg metadata |     |
-| ----------------------- | ------------- | --------------- | --- |
-| TITLE                   | album_title   | album           |     |
-| PERFORMER               | album_artist  | album_artist    |     |
-| PERFORMER               | track_artist  | artist          |     |
-| CATALOG                 |               |                 |     |
-| REM COMMENT             | comment       | comment         |     |
-| REM DISCID              | discid        | discid          |     |
-| REM DATE                | date          | date            |     |
-| REM GENRE               | genre         | genre           |     |
-| REM DISCNUMBER          | discnumber    | disc            |     |
-| REM TOTALDISCS          | totaldiscs    | disctotal       |     |
-| REM COMPOSER            | composer      | composer        |     |
-| REM CONDUCTOR           |               |                 |     |
-| SONGWRITER              | songwriter    | songwriter      |     |
-| FILE filename WAVE      | （file）      |                 |     |
-| FILE.TRACK n AUDIO      | track_number  | track           |     |
-| FILE.TRACK.TITLE        | track_title   | title           |     |
-| FILE.TRACK.REM COMPOSER | composer      | composer        |     |
-| FILE.TRACK.ISRC         |               |                 |     |
-| FILE.TRACK.PERFORMER    | track_artist: | artist          |     |
-| FILE.TRACK.INDEX n      | indexes: {}   |                 |     |
-|                         |               | tracktotal      |     |
+
+## リッピングツールのタグ対応
+
+| ExactAudioCopy v1.5     | freac v1.1.6           |
+| ----------------------- | ---------------------- |
+| REM GENRE               | REM GENRE              |
+| REM DATE                | REM DATE               |
+| REM DISCID              | -                      |
+| REM COMMENT             | REM COMMENT            |
+| PERFORMER               | PERFORMER              |
+| TITLE                   | TITLE                  |
+| REM COMPOSER            | -                      |
+| FILE                    | FILE                   |
+| FILE.TRACK.TITLE        | FILE.TRACK.TITLE       |
+| FILE.TRACK.PERFORMER    | FILE.TRACK.PERFORMER   |
+| FILE.TRACK.REM COMPOSER | -                      |
+| FILE.TRACK.INDEX        | FILE.TRACK.INDEX       |
+| -                       | FILE.TRACK.ISRC        |
+| -                       | FILE.TRACK.REM COMMENT |
 
 
