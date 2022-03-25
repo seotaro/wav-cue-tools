@@ -6,19 +6,21 @@ const fs = require('fs');
 const path = require('path');
 
 // 引数チェック
-if ((process.argv.length < 3) || (4 < process.argv.length)) {
+if ((process.argv.length < 4) || (7 < process.argv.length)) {
   const basename = path.basename(process.argv[1]);
 
-  console.error(`Usage: node ${basename} cuesheet [output]`);
+  console.error(`Usage: node ${basename} cuesheet output [extent] [ffmpeg-options]`);
   process.exit(1);
 }
 
-const cuesheetPath = process.argv[2];
-const INPUT = path.dirname(cuesheetPath);
+const CUESHEET_PATH = process.argv[2];
+const INPUT = path.dirname(CUESHEET_PATH);
 const OUTPUT = process.argv[3] || '.';
+const EXTENT = process.argv[4] || 'wav';
+const OPTIONS = process.argv[5] || null;
 
 // トラック単位で集計する。
-const tracks = cuesheet.parse(cuesheetPath);
+const tracks = cuesheet.parse(CUESHEET_PATH);
 
 // 出力フォルダー
 const firstTrack = tracks[0]; // 最初のトラックで代表する
@@ -30,14 +32,14 @@ const dir = path.join(
 fs.mkdirSync(dir, { recursive: true });
 
 // エンコード
-console.log(cuesheetPath);
+console.log(CUESHEET_PATH);
 for (let i = 0; i < tracks.length; i++) {
   const track = tracks[i];
 
   const src = path.join(INPUT, track.file);
 
-  // const destName = `${track.track_number}.${track.track_title}.flac`;
-  const destName = `${firstTrack.discnumber}-${track.track_number}.flac`;
+  // const destName = `${track.track_number}.${track.track_title}.${EXTENT}`;
+  const destName = `${firstTrack.discnumber}-${track.track_number}.${EXTENT}`;
   const dest = path.join(dir, destName.replace(/\//g, '-'));
 
   const command = [
@@ -49,6 +51,8 @@ for (let i = 0; i < tracks.length; i++) {
     track.end ? `-to ${track.end}` : '',
 
     cuesheet.ffmpegMetadata(track).join(' '),
+
+    OPTIONS ? OPTIONS : '',
 
     `"${dest}"`
   ].join(' ');
