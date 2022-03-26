@@ -12,9 +12,7 @@
                 "<node_internals>/**"
             ],
             "program": "${file}",
-            "args": [
-                "Official髭男dism - one-man tour 2019 at 日本武道館/Official髭男dism - one-man tour 2019 at 日本武道館 disc1.cue"
-            ]
+            "args": []
         }
     ]
 }
