@@ -35,22 +35,27 @@ exports.parse = (path) => {
 
 // ffmpeg の metadata にマップする。
 exports.ffmpegMetadata = (attributes) => {
-  return [
-    attributes.album_title ? `-metadata album="${attributes.album_title}"` : `-metadata album=""`,
-    attributes.album_artist ? `-metadata album_artist="${attributes.album_artist}"` : `-metadata album_artist=""`,
-    attributes.track_artist ? `-metadata artist="${attributes.track_artist}"` : `-metadata artist=""`,
-    attributes.comment ? `-metadata comment="${attributes.comment}"` : `-metadata comment=""`,
-    attributes.date ? `-metadata date="${attributes.date}"` : `-metadata date=""`,
-    attributes.discid ? `-metadata discid="${attributes.discid}"` : ` -metadata discid=""`,
-    attributes.discnumber ? `-metadata disc="${attributes.discnumber}"` : `-metadata disc=""`,
-    attributes.genre ? `-metadata genre="${attributes.genre}"` : `-metadata genre=""`,
-    attributes.songwriter ? `-metadata songwriter="${attributes.songwriter}"` : `-metadata songwriter=""`,
-    attributes.track_title ? `-metadata title="${attributes.track_title}"` : `-metadata title=""`,
-    attributes.totaldiscs ? `-metadata disctotal="${attributes.totaldiscs}"` : `-metadata disctotal=""`,
-    attributes.composer ? `-metadata composer="${attributes.composer}"` : `-metadata composer=""`,
-    attributes.tracktotal ? `-metadata tracktotal="${attributes.tracktotal}"` : `-metadata tracktotal=""`,
-    attributes.track_number ? `-metadata track="${attributes.track_number}"` : `-metadata track=""`,
+  const metadatas = [
+    attributes.album_title ? `-metadata album="${attributes.album_title}"` : null,
+    attributes.album_artist ? `-metadata album_artist="${attributes.album_artist}"` : null,
+    attributes.track_artist ? `-metadata artist="${attributes.track_artist}"` : null,
+    attributes.comment ? `-metadata comment="${attributes.comment}"` : null,
+    attributes.date ? `-metadata date="${attributes.date}"` : null,
+    attributes.discid ? `-metadata discid="${attributes.discid}"` : null,
+    attributes.discnumber ? `-metadata disc="${attributes.discnumber}"` : null,
+    attributes.genre ? `-metadata genre="${attributes.genre}"` : null,
+    attributes.songwriter ? `-metadata songwriter="${attributes.songwriter}"` : null,
+    attributes.track_title ? `-metadata title="${attributes.track_title}"` : null,
+    attributes.totaldiscs ? `-metadata disctotal="${attributes.totaldiscs}"` : null,
+    attributes.composer ? `-metadata composer="${attributes.composer}"` : null,
+    attributes.tracktotal ? `-metadata tracktotal="${attributes.tracktotal}"` : null,
+    attributes.track_number ? `-metadata track="${attributes.track_number}"` : null,
   ];
+
+  // エスケープして返す。
+  return metadatas
+    .filter(metadata => metadata)
+    .map(metadata => metadata.replace(/`/g, '\\`'));
 }
 
 
