@@ -59,6 +59,8 @@ for (let i = 0; i < tracks.length; i++) {
 
   try {
     execSync(commandline)
+    console.log('\t', track.track_number, '.', track.track_title);
+
   } catch (error) {
     console.error(error);
   }
