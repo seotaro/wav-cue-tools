@@ -42,7 +42,7 @@ for (let i = 0; i < tracks.length; i++) {
   const destName = `${firstTrack.discnumber}-${track.track_number}.${EXTENT}`;
   const dest = path.join(dir, destName.replace(/\//g, '-'));
 
-  const command = [
+  const commandline = [
     `ffmpeg`,
     `-loglevel error`,
     `-y -i "${src}"`,
@@ -57,8 +57,11 @@ for (let i = 0; i < tracks.length; i++) {
     `"${dest}"`
   ].join(' ');
 
-  console.log(track.track_artist, track.track_number, track.track_title);
-  execSync(command)
+  try {
+    execSync(commandline)
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 // カバーアート
