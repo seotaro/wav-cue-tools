@@ -11,13 +11,13 @@ yarn install
 cuesheet の内容をトラック単位に出力する。
 
 ```bash
-Usage: node analyze.js cuesheet
+node analyze.js cuesheet
 ```
 
 指定した cuesheet を指定したフォーマットで出力する。
 
 ```bash
-Usage: node convert.js cuesheet output [extent] [ffmpeg-options]
+node convert.js cuesheet output [extent] [ffmpeg-options]
 ```
 
 出力先には下記の階層構造で出力する。
