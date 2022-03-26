@@ -55,10 +55,10 @@ node convert.js "oasis - (WHAT'S THE STORY) MORNING GLORY？.cue" 音楽フォ�
 node convert.js "oasis - (WHAT'S THE STORY) MORNING GLORY？.cue" 音楽フォルダー mp4 "-c:a libfdk_aac -profile:a aac_he_v2 -signaling implicit -vbr 3"
 ```
 
-例）指定フォルダーの cuesheet から変換
+例）指定フォルダーの cuesheet から変換する。 ※ シングルクォート、ブラケットなどをパスに含まないこと。
 
 ```bash
-find {入力フォルダ} -iname \*.cue -type f | xargs -I "{}" node convert.js "{}" 音楽フォルダー flac                              
+find WAV音楽フォルダー -iname \*.cue -type f | xargs -I {} node convert.js {} 音楽フォルダー flac                              
 ```
 
 ## タグの対応
