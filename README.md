@@ -73,7 +73,7 @@ find WAV音楽フォルダー -iname \*.cue -type f | xargs -I {} node convert.j
 
 ## リッピングツールのタグ対応
 
-| ExactAudioCopy v1.5     | freac v1.1.6           |
+| ExactAudioCopy v1.5     | fre:ac v1.1.6          |
 | ----------------------- | ---------------------- |
 | REM GENRE               | REM GENRE              |
 | REM DATE                | REM DATE               |
