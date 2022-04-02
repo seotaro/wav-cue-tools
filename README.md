@@ -71,21 +71,80 @@ node convert.js "oasis - (WHAT'S THE STORY) MORNING GLORY？.cue" 音楽フォ�
 find WAV音楽フォルダー -iname \*.cue -type f | xargs -I {} node convert.js {} 音楽フォルダー flac                              
 ```
 
-## リッピングツールのタグ対応
+## タギング
 
-| ExactAudioCopy v1.5     | fre:ac v1.1.6（macOS） |
-| ----------------------- | ---------------------- |
-| REM GENRE               | REM GENRE              |
-| REM DATE                | REM DATE               |
-| REM DISCID              | -                      |
-| REM COMMENT             | REM COMMENT            |
-| PERFORMER               | PERFORMER              |
-| TITLE                   | TITLE                  |
-| REM COMPOSER            | -                      |
-| FILE                    | FILE                   |
-| FILE.TRACK.TITLE        | FILE.TRACK.TITLE       |
-| FILE.TRACK.PERFORMER    | FILE.TRACK.PERFORMER   |
-| FILE.TRACK.REM COMPOSER | -                      |
-| FILE.TRACK.INDEX        | FILE.TRACK.INDEX       |
-| -                       | FILE.TRACK.ISRC        |
-| -                       | FILE.TRACK.REM COMMENT |
+### リッピングツールが生成する cue コマンド
+
+| cue コマンド            | ExactAudioCopy v1.5 | fre:ac v1.1.6（macOS） |
+| ----------------------- | ------------------- | ---------------------- |
+| REM GENRE               | ✓                   | ✓                      |
+| REM DATE                | ✓                   | ✓                      |
+| REM DISCID              | ✓                   | -                      |
+| REM DISCNUMBER ※        | -                   | -                      |
+| REM TOTALDISCS ※        | -                   | -                      |
+| REM COMMENT             | ✓                   | ✓                      |
+| REM COMPOSER            | ✓                   | -                      |
+| REM CONDUCTOR ※         | -                   | -                      |
+| SONGWRITER ※            | -                   | -                      |
+| PERFORMER               | ✓                   | ✓                      |
+| TITLE                   | ✓                   | ✓                      |
+| REM COMPOSER            | ✓                   | -                      |
+| TRACK / TITLE           | ✓                   | ✓                      |
+| TRACK / PERFORMER       | ✓                   | ✓                      |
+| TRACK / REM COMPOSER    | ✓                   | -                      |
+| TRACK / REM CONDUCTOR ※ | -                   | -                      |
+| TRACK / SONGWRITER ※    | -                   | -                      |
+| TRACK / ISRC            | -                   | ✓                      |
+| TRACK / REM COMMENT     | -                   | ✓                      |
+
+※ cue シートファイルを編集して追加する。
+
+### cue コマンドとタグのマッピング
+
+| cue コマンド          | タグ                      | デフォルト |
+| --------------------- | ------------------------- | ---------- |
+| REM GENRE             | genre                     | 'genre'    |
+| REM DATE              | date                      |            |
+| REM DISCID            | discid                    |            |
+| REM DISCNUMBER        | discnumber                | 1          |
+| REM TOTALDISCS        | totaldiscs                | 1          |
+| REM COMMENT           | comment                   |            |
+| REM CONDUCTOR         | conductor                 |            |
+| SONGWRITER            | songwriter                |            |
+| PERFORMER             | album_artist,track_artist |            |
+| TITLE                 | album_title               |            |
+| REM COMPOSER          | composer                  |            |
+| TRACK / TITLE         | track_title               |            |
+| TRACK / PERFORMER     | track_artist ※            |            |
+| TRACK / REM COMPOSER  | composer ※                |            |
+| TRACK / REM CONDUCTOR | conductor ※               |            |
+| TRACK / SONGWRITER    | songwriter ※              |            |
+| TRACK / ISRC          |                           |            |
+| TRACK / REM COMMENT   | comment ※                 |            |
+
+※ トラックの方が優先、上書きする
+
+### タグと ffmpeg metadata のマッピング
+
+| タグ         | ffmpeg metadata |
+| ------------ | --------------- |
+| album_title  | album           |
+| album_artist | album_artist    |
+| track_artist | artist          |
+| comment      | comment         |
+| date         | date            |
+| discid       | discid          |
+| discnumber   | disc            |
+| genre        | genre           |
+| songwriter   | songwriter      |
+| track_title  | title           |
+| totaldiscs   | disctotal       |
+| composer     | composer        |
+| tracktotal ※ | tracktotal      |
+| track_number | track           |
+
+※ プログラム内で生成する
+
+## 参考
+
+1. [Cue sheet](https://wiki.hydrogenaud.io/index.php?title=Cue_sheet)  *Hydrogenaudio Knowledgebase*
