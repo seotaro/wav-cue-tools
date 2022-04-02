@@ -19,7 +19,7 @@ const OUTPUT = process.argv[3] || '.';
 const EXTENT = process.argv[4] || 'wav';
 const OPTIONS = process.argv[5] || null;
 
-// トラック単位で集計する。
+// パースしてトラック単位で集計する。
 const tracks = cuesheet.parse(CUESHEET_PATH);
 
 // 出力フォルダー

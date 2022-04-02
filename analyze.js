@@ -11,6 +11,7 @@ if (process.argv.length !== 3) {
   process.exit(1);
 }
 
+// パースしてトラック単位で集計する。
 const tracks = cuesheet.parse(process.argv[2]);
 
 // 再帰的にオブジェクトを key=value 形式で連結して返す。
