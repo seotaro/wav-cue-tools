@@ -1,4 +1,12 @@
-# WAV+cuesheet
+# wav+cue
+
+wav ファイル + cue シート（以下、wav+cue とする）で構成されたオーディオファイルから任意のオーディオフォーマットに変換する。cue シートで定義する wav は単一または複数。変換時にタグ情報を付加する。
+
+## 動機
+
+Windows 環境で CD-DA からリッピングして再生するなら wav+cue 形式は使い勝手が良く、かれこれ 2000年 ぐらいから全てこの形式で管理している。であるが、Windows 以外で再生しようとすると（例えば、ラズパイでメディアサーバーを立ち上げる、とか）、とたんに具合が悪いことになってしまう。cue シートに対応してなくてただのタグ情報のないオーディオファイルになってしまうのだ。
+
+そこでオリジナルは wav+cue 形式として、必要に応じてフォーマットを変換することにした。
 
 ## インストール
 
@@ -8,19 +16,20 @@ yarn install
 
 ## 実行
 
-cuesheet の内容をトラック単位に出力する。
+cue シートの内容をトラック順に表示する。
 
 ```bash
 node analyze.js cuesheet
 ```
 
-指定した cuesheet を指定したフォーマットで出力する。
+cue シートを指定したフォーマットで出力する。
 
 ```bash
 node convert.js cuesheet output [extent] [ffmpeg-options]
 ```
 
-出力先には下記の階層構造で出力する。
+出力は下記の階層構造・名称とする。
+パスが長くなりすぎるのを避けるため、トラックのファイル名称は必要最低限とした。
 
 ```plaintext
 {output}
@@ -30,6 +39,7 @@ node convert.js cuesheet output [extent] [ffmpeg-options]
       ├ {disc}-{track}.flac
 ```
 
+## 実行例
 
 例）flac で出力する。
 
@@ -55,39 +65,11 @@ node convert.js "oasis - (WHAT'S THE STORY) MORNING GLORY？.cue" 音楽フォ�
 node convert.js "oasis - (WHAT'S THE STORY) MORNING GLORY？.cue" 音楽フォルダー mp4 "-c:a libfdk_aac -profile:a aac_he_v2 -signaling implicit -vbr 3"
 ```
 
-例）指定フォルダーの cuesheet から変換する。 ※ シングルクォート、ブラケットなどをパスに含まないこと。
+例）指定フォルダーの cue シートから変換する。 ※ シングルクォート、ブラケットなどをパスに含まないこと。
 
 ```bash
 find WAV音楽フォルダー -iname \*.cue -type f | xargs -I {} node convert.js {} 音楽フォルダー flac                              
 ```
-
-## タグの対応
-
-| ExactAudioCopy          | freac |               | デフォルト値       | ffmpeg metadata |
-| ----------------------- | ----- | ------------- | ------------------ | --------------- |
-| TITLE                   |       | album_title   |                    | album           |
-| PERFORMER               |       | album_artist  |                    | album_artist    |
-| PERFORMER               |       |               |                    | artist          |
-| CATALOG                 |       |               |                    |                 |
-| REM COMMENT             |       | comment       |                    | comment         |
-| REM DISCID              |       | discid        |                    | discid          |
-| REM DATE                |       | date          |                    | date            |
-| REM GENRE               |       | genre         | "genre"            | genre           |
-| REM DISCNUMBER          |       | discnumber    |                    | disc            |
-| REM TOTALDISCS          |       | totaldiscs    | 1                  | disctotal       |
-| REM COMPOSER            |       | composer      |                    | composer        |
-| REM CONDUCTOR           |       |               |                    |                 |
-| SONGWRITER              |       | songwriter    |                    | songwriter      |
-| FILE filename WAVE      |       | （file）      |                    |                 |
-| FILE.TRACK n AUDIO      |       | track_number  | 1                  | track           |
-| FILE.TRACK.TITLE        |       | track_title   |                    | title           |
-| FILE.TRACK.REM COMPOSER |       | composer      |                    | composer        |
-| FILE.TRACK.ISRC         |       |               |                    |                 |
-| FILE.TRACK.PERFORMER    |       | track_artist: | cuesheet.PERFORMER | artist          |
-| FILE.TRACK.INDEX n      |       | indexes: {}   |                    |                 |
-|                         |       |               |                    | tracktotal      |
-
-
 
 ## リッピングツールのタグ対応
 
@@ -107,5 +89,3 @@ find WAV音楽フォルダー -iname \*.cue -type f | xargs -I {} node convert.j
 | FILE.TRACK.INDEX        | FILE.TRACK.INDEX       |
 | -                       | FILE.TRACK.ISRC        |
 | -                       | FILE.TRACK.REM COMMENT |
-
-
