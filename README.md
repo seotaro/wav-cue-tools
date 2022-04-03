@@ -148,3 +148,4 @@ find WAV音楽フォルダー -iname \*.cue -type f | xargs -I {} node convert.j
 ## 参考
 
 1. [Cue sheet](https://wiki.hydrogenaud.io/index.php?title=Cue_sheet)  *Hydrogenaudio Knowledgebase*
+1. [Ogg Vorbis I format specification: comment field and header specification](https://xiph.org/vorbis/doc/v-comment.html) *Ogg Vorbis Documentation*
