@@ -151,5 +151,47 @@ describe('cue-parser', function () {
 
     expect(tracks).toEqual(dest);
   });
+
+
+  test('default values', () => {
+    const tracks = cuesheet.parse(path.join(__dirname, 'default-values.cue'));
+
+    const dest = [
+      {
+        album_title: 'unknown',
+        album_artist: 'unknown',
+        discnumber: "1",
+        totaldiscs: "1",
+        tracktotal: 2,
+        track_number: 1,
+        track_artist: 'unknown',
+        track_title: 'unknown',
+        songwriter: 'unknown',
+        isrc: 'unknown',
+        file: "DDDDDDDDDDD.wav",
+        indexes: { "1": "00:00:00.00", },
+        start: "00:00:00.00",
+        end: "00:04:16.60",
+      },
+      {
+        album_title: 'unknown',
+        album_artist: 'unknown',
+        discnumber: "1",
+        totaldiscs: "1",
+        tracktotal: 2,
+        track_number: 2,
+        track_artist: 'unknown',
+        track_title: 'unknown',
+        songwriter: 'unknown',
+        isrc: 'unknown',
+        file: "DDDDDDDDDDD.wav",
+        indexes: { "1": "00:04:16.60", },
+        start: "00:04:16.60",
+        end: null,
+      }
+    ];
+
+    expect(tracks).toEqual(dest);
+  });
 });
 
