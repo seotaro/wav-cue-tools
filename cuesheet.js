@@ -23,6 +23,7 @@ exports.parse = (path) => {
     , songwriter: cuesheet.songWriter
     , composer: ''
     , file: ''
+    , isrc: ''
     , indexes: {}
     , start: '00:00:00.000'
     , end: '00:00:00.000'
@@ -111,6 +112,9 @@ const parseFile = (attributes, file) => {
     if (track.songWriter) {
       trackAttributes.songwriter = track.songWriter;
     }
+    if (track.isrc) {
+      trackAttributes.isrc = track.isrc;
+    }
 
     ret.push(trackAttributes);
   }
@@ -138,6 +142,6 @@ const formatRems = ((rems) => {
 });
 
 // ゼロパディング
-const padding = (value, digit) => {
+function padding(value, digit) {
   return (Array(digit).join('0') + value).slice(-digit);
 }
