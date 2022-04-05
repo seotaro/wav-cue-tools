@@ -7,26 +7,14 @@ exports.parse = (path) => {
   const cuesheet = parser.parse(path);
 
   const attributes = {
-    album_title: cuesheet.title
-    , album_artist: cuesheet.performer
-    , comment: ''
-    , discid: ''
-    , date: ''
-    , genre: 'genre'
-    , discnumber: 1
-    , totaldiscs: 1
-    , tracktotal: ''
+    // REM 以外の cue コマンドを内部コマンドにマッピングする
+    album_title: cuesheet.title ? cuesheet.title : 'unknown'
+    , album_artist: cuesheet.performer ? cuesheet.performer : 'unknown'
+    , track_artist: cuesheet.performer ? cuesheet.performer : 'unknown'
+    , songwriter: cuesheet.songWriter ? cuesheet.songWriter : 'unknown'
 
-    , track_number: ''
-    , track_artist: cuesheet.performer
-    , track_title: ''
-    , songwriter: cuesheet.songWriter
-    , composer: ''
-    , file: ''
-    , isrc: ''
-    , indexes: {}
-    , start: '00:00:00.000'
-    , end: '00:00:00.000'
+    , discnumber: '1'
+    , totaldiscs: '1'
 
     , ...formatRems(cuesheet.rems)
   }
@@ -90,30 +78,18 @@ const parseFile = (attributes, file) => {
 
     const trackAttributes = {
       ...attributes
+
       , file: file.name
-      , track_number: track.number
-      , track_title: track.title
+      , track_number: track.number ? track.number : 'unknown'
+      , track_artist: track.performer ? track.performer : attributes.album_artist
+      , track_title: track.title ? track.title : 'unknown'
+      , songwriter: track.songWriter ? track.songWriter : attributes.songwriter
+      , isrc: track.isrc ? track.isrc : 'unknown'
       , indexes
-      , ...formatRems(track.rems)
       , start: indexes['1'] ? indexes['1'] : '00:00:00.000'
       , end: null
-    }
 
-    // トラックにあれば上書きする。
-    if (track.performer) {
-      trackAttributes.track_artist = track.performer;
-    }
-    if (track.composer) {
-      trackAttributes.composer = track.composer;
-    }
-    if (track.conductor) {
-      trackAttributes.conductor = track.conductor;
-    }
-    if (track.songWriter) {
-      trackAttributes.songwriter = track.songWriter;
-    }
-    if (track.isrc) {
-      trackAttributes.isrc = track.isrc;
+      , ...formatRems(track.rems)
     }
 
     ret.push(trackAttributes);
