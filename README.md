@@ -99,49 +99,49 @@ find WAV音楽フォルダー -iname \*.cue -type f | xargs -I {} node convert.j
 
 ※ cue シートファイルを編集して追加する。
 
-### cue コマンドとタグのマッピング
+### cue コマンドと内部プロパティのマッピング
 
-| cue コマンド          | タグ                      | デフォルト |
+| cue コマンド          | 内部プロパティ            | デフォルト |
 | --------------------- | ------------------------- | ---------- |
-| REM GENRE             | genre                     | 'genre'    |
+| REM GENRE             | genre                     |            |
 | REM DATE              | date                      |            |
 | REM DISCID            | discid                    |            |
-| REM DISCNUMBER        | discnumber                | 1          |
-| REM TOTALDISCS        | totaldiscs                | 1          |
+| REM DISCNUMBER        | discnumber                | '1'        |
+| REM TOTALDISCS        | totaldiscs                | '1'        |
 | REM COMMENT           | comment                   |            |
 | REM CONDUCTOR         | conductor                 |            |
-| SONGWRITER            | songwriter                |            |
-| PERFORMER             | album_artist,track_artist |            |
-| TITLE                 | album_title               |            |
+| SONGWRITER            | songwriter                | 'unknown'  |
+| PERFORMER             | album_artist,track_artist | 'unknown'  |
+| TITLE                 | album_title               | 'unknown'  |
 | REM COMPOSER          | composer                  |            |
-| TRACK / TITLE         | track_title               |            |
-| TRACK / PERFORMER     | track_artist ※            |            |
+| TRACK / TITLE         | track_title               | 'unknown'  |
+| TRACK / PERFORMER     | track_artist ※            | 'unknown'  |
 | TRACK / REM COMPOSER  | composer ※                |            |
 | TRACK / REM CONDUCTOR | conductor ※               |            |
-| TRACK / SONGWRITER    | songwriter ※              |            |
-| TRACK / ISRC          |                           |            |
+| TRACK / SONGWRITER    | songwriter ※              | 'unknown'  |
+| TRACK / ISRC          | isrc                      | 'unknown'  |
 | TRACK / REM COMMENT   | comment ※                 |            |
 
 ※ トラックの方が優先、上書きする
 
-### タグと ffmpeg metadata のマッピング
+### 内部プロパティと ffmpeg metadata のマッピング
 
-| タグ         | ffmpeg metadata |
-| ------------ | --------------- |
-| album_title  | album           |
-| album_artist | album_artist    |
-| track_artist | artist          |
-| comment      | comment         |
-| date         | date            |
-| discid       | discid          |
-| discnumber   | disc            |
-| genre        | genre           |
-| songwriter   | songwriter      |
-| track_title  | title           |
-| totaldiscs   | disctotal       |
-| composer     | composer        |
-| tracktotal ※ | tracktotal      |
-| track_number | track           |
+| 内部プロパティ | ffmpeg metadata |
+| -------------- | --------------- |
+| album_title    | album           |
+| album_artist   | album_artist    |
+| track_artist   | artist          |
+| comment        | comment         |
+| date           | date            |
+| discid         | discid          |
+| discnumber     | disc            |
+| genre          | genre           |
+| songwriter     | songwriter      |
+| track_title    | title           |
+| totaldiscs     | disctotal       |
+| composer       | composer        |
+| tracktotal ※   | tracktotal      |
+| track_number   | track           |
 
 ※ プログラム内で生成する
 
