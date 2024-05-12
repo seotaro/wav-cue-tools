@@ -68,13 +68,13 @@ for (let i = 0; i < tracks.length; i++) {
 
 // カバーアート
 {
-  const src = path.join(INPUT, 'front.jpg');
+  const src = path.join(INPUT, 'cover.jpg');
   if (fs.existsSync(src)) {
-    const dest = path.join(dir, 'front.jpg');
+    const dest = path.join(dir, 'cover.jpg');
 
     fs.copyFile(src, dest, (err) => {
       if (err) {
-        console.error('error copy front.jpg', err);
+        console.error('error copy cover.jpg', err);
       };
     });
   }
